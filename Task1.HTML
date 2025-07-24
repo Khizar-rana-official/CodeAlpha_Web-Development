@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Age Calculator</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1d1f1d, #1d1f1d);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #fff;
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 2rem;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: block;
+      margin: 1rem 0 0.5rem;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    input[type="date"] {
+      padding: 10px;
+      width: 100%;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    button {
+      margin-top: 1.5rem;
+      padding: 12px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+      background-color: #ffffff;
+      color: #1d1f1d;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #f0f0f0;
+    }
+
+    .result {
+      margin-top: 1.5rem;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #fff;
+    }
+
+    /* Mobile View */
+    @media (max-width: 500px) {
+      body {
+        padding: 0 1rem;
+      }
+
+      .container {
+        padding: 1.2rem;
+      }
+
+      h1 {
+        font-size: 1.3rem;
+      }
+
+      label {
+        font-size: 0.9rem;
+      }
+
+      input[type="date"] {
+        font-size: 0.9rem;
+      }
+
+      button {
+        width: 100%;
+        font-size: 0.9rem;
+        padding: 10px;
+      }
+
+      .result {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Age Calculator</h1>
+    <label for="dob">Enter Your Date of Birth:</label>
+    <input type="date" id="dob" max="{{today}}" />
+    <button onclick="calculateAge()">Calculate Age</button>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    function calculateAge() {
+      const dobInput = document.getElementById("dob").value;
+      const result = document.getElementById("result");
+
+      if (!dobInput) {
+        result.innerText = "Please enter your date of birth.";
+        return;
+      }
+
+      const dob = new Date(dobInput);
+      const today = new Date();
+
+      if (dob > today) {
+        result.innerText = "Date of birth cannot be in the future.";
+        return;
+      }
+
+      let years = today.getFullYear() - dob.getFullYear();
+      let months = today.getMonth() - dob.getMonth();
+      let days = today.getDate() - dob.getDate();
+
+      if (days < 0) {
+        months--;
+        days += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+      }
+
+      if (months < 0) {
+        years--;
+        months += 12;
+      }
+
+      result.innerText = `You are ${years} year(s), ${months} month(s), and ${days} day(s) old.`;
+    }
+
+    // Trigger age calculation when Enter key is pressed
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Enter") {
+        calculateAge();
+      }
+    });
+  </script>
+</body>
+</html>
